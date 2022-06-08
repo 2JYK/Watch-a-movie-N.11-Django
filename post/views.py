@@ -10,7 +10,7 @@ from movie.models import Movie
 
 @login_required
 def show_post(request, id):
-    user = request.user.is_authenticated
+    user = request.user
     if user:
 
         if request.method == 'GET':
@@ -18,6 +18,8 @@ def show_post(request, id):
             return render(request, 'post/post.html', {'movie': movie})
 
         elif request.method == 'POST':
+            
+            #게시글 저장
             score = request.POST.get("myRange", "")
             comment = request.POST.get("comment", "")
             current_movie = Movie.objects.get(id=id)
@@ -48,6 +50,14 @@ def show_list(request):
             return render(request,'post/mypage.html', {'username': user, 'posts': all_post})
         else:  # 로그인이 되어 있지 않다면
             return redirect('/sign-in/')
+
+
+#게시물 삭제
+def delete_post(request,id):
+    post = PostModel.objects.get(id=id)
+
+    post.delete()
+    return redirect('/mypage')
 
 
 

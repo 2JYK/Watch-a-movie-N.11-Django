@@ -37,35 +37,22 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
         {% for post in posts %}
-        <tr>
-            <th scope="row">1</th>
-            <td>{{ post.title }}</td>
-            <td>{{ post.score }}</td>
-            <td>{{ post.created_at|timesince }}</td>
-            <td><button class="button">삭제</button></td>
-        </tr>
+            <form action="/mypage/delete/{{ post.id }}/" method="POST">
+                {% csrf_token %}
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.score }}</td>
+                    <td>{{ post.created_at|timesince }}</td>
+                    <td>
+                        <button type="submit" class="button">삭제</button>
+                    </td>
+                </tr>
+                </tbody>
+            </form>
         {% endfor %}
-{#        <tr>#}
-{#            <th scope="row">1</th>#}
-{#            <td>바람과 함께 사라지다</td>#}
-{#            <td>7.8</td>#}
-{#            <td>2022.06.03</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <th scope="row">2</th>#}
-{#            <td>어린 왕자</td>#}
-{#            <td>6.9</td>#}
-{#            <td>2022.05.28</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <th scope="row">2</th>#}
-{#            <td>닥터스트레인지</td>#}
-{#            <td>9.2</td>#}
-{#            <td>2022.05.20</td>#}
-{#        </tr>#}
-        </tbody>
     </table>
 
 {% endblock %}
