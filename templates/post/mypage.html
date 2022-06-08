@@ -17,6 +17,9 @@
         background-color : black;
         font-weight : bold;
     }
+    .table {
+        text-align : center;
+    }
 {% endblock %}
 
 
@@ -30,7 +33,6 @@
     <table style="max-width: 1400px; margin: 100px auto;" class="table table-striped table-hover">
         <thead>
         <tr>
-            <th style="width: 8.33%" scope="col">#</th>
             <th style="width: 45%" scope="col">영화 제목</th>
             <th style="width: 20%" scope="col">평점</th>
             <th style="width: 26.6%" scope="col">작성일</th>
@@ -42,8 +44,7 @@
                 {% csrf_token %}
                 <tbody>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>{{ post.title }}</td>
+                    <td>   {{ post.title }}</td>
                     <td>{{ post.score }}</td>
                     <td>{{ post.created_at|timesince }}</td>
                     <td>
