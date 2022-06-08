@@ -3,22 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
-    <script>
-
-    </script>
 </head>
 
 <style>
     body {
         margin: 0;
     }
-    .modal {
-        position: fixed;
-        {#display: none;#}
 
-    }
     .modal_back {
         width: 100vw;
         height: 100vh;
@@ -103,37 +94,59 @@
         border-radius: 3px;
         cursor:pointer;
     }
+    .exist {
+        width: 550px;
+        height: 10%;
+        background-color: white;
+        margin: auto;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        padding-top: 50px;
+        margin-top: 20px;
+
+    }
 </style>
 <body>
+
     <div class="modal" id="modal">
         <div class="modal_back">
+            {% if movie is None %}
+                <div class="exist">
+                    <span> 이미 후기를 작성한 영화입니다.</span>
+                </div>
+            {% endif %}
+            {% if movie is not None%}
             <div class="modal_content">
                 <div class="modal_title">
                     내 평점 등록
                 </div>
-                <div class="modal_component">
-                    <div class="title">
-                        {{ 영화 제목 }}
-                    </div>
-                    <div>
-
-                        <div class="slidecontainer" >
-                            <span>평점을 매겨주세요.</span><br>
-                            <input type="range" min="1" max="5" step="0.1" value="3" class="slider" id="myRange" oninput="document.getElementById('score').innerHTML=this.value;"><br>
-                            <span id="score" class="score"></span>
+                <form action="/detail/post/{{ movie.id }}/" method="POST">
+                    {% csrf_token %}
+                     <div class="modal_component">
+                        <div class="title">
+                            {{ movie.title }}
+                        </div>
+                        <div>
+                            <div class="slidecontainer" >
+                                <span>평점을 매겨주세요.</span><br>
+                                <input type="range" min="1" max="5" step="0.1" value="3" class="slider" id="myRange" name="myRange" oninput="document.getElementById('score').innerHTML=this.value;"><br>
+                                <span id="score" class="score"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <textarea name="comment" id="comment" class="comment" placeholder="감상평을 남겨주세요."></textarea>
+                        </div>
+                        <div>
+                            <button class="btn1" id="btn1">취소</button> <button class="btn2 btn2" type="submit">작성</button>
                         </div>
                     </div>
-                    <div>
-                        <textarea class="comment" placeholder="감상평을 남겨주세요."></textarea>
-                    </div>
-                    <div>
-                        <button class="btn1" id="btn1">취소</button> <button class="btn2 btn2">확인</button>
-                    </div>
-                </div>
-
+                </form>
             </div>
-
         </div>
     </div>
+{% endif %}
+
 </body>
 </html>

@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import PostModel
 from movie.models import Movie
+from django.contrib import messages
 
 
 
@@ -14,17 +15,27 @@ def show_post(request, id):
     if user:
 
         if request.method == 'GET':
-            movie = Movie.objects.get(id=id)
-            return render(request, 'post/post.html', {'movie': movie})
 
+            #사용자가 이미 작성했는지 확인
+            try:
+                existed_post = PostModel.objects.get(author_id=user.id, title_id=id)
+                print(existed_post)
+
+                return render(request, 'post/post.html')
+            except:
+                movie = Movie.objects.get(id=id)
+                print(id)
+                print(movie)
+                return render(request, 'post/post.html', {'movie': movie})
+
+        #게시글 작성
         elif request.method == 'POST':
-            
-            #게시글 저장
             score = request.POST.get("myRange", "")
             comment = request.POST.get("comment", "")
             current_movie = Movie.objects.get(id=id)
             user = request.user
 
+            #게시글 저장
             PM = PostModel()
             PM.title = current_movie
             PM.score = score
