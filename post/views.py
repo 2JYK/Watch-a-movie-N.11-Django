@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .models import PostModel
 from movie.models import Movie
 from django.contrib import messages
+from datetime import datetime
 
 
 #게시물 작성 페이지
@@ -66,7 +67,33 @@ def delete_post(request,id):
     post.delete()
     return redirect('/mypage')
 
+# 게시물 확인
+def edit(request, id):
+    article = PostModel.objects.get(id=id)
+    movie = Movie.objects.get(id=article.title_id)
 
+    context = {
+        'article': article,
+        'movie': movie,
+    }
+
+    return render(request, 'post/edit.html', context)
+
+
+# 게시물 업데이트
+def update(request, id):
+    if request.method == 'POST':
+        user = request.user
+
+        article = PostModel.objects.get(id=id)
+        article.score = request.POST.get('myRange')
+        article.content = request.POST.get('comment')
+        article.created_at = datetime.now()
+        article.save()
+
+        all_post = PostModel.objects.filter(author_id=user.id).order_by('-created_at')
+
+        return render(request, 'post/mypage.html', {'username': user, 'posts': all_post})
 
 
 
