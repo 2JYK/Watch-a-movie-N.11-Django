@@ -1,14 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import PostModel
 from movie.models import Movie
-from django.contrib import messages
 from datetime import datetime
 
 
 #게시물 작성 페이지
-
-
 def show_post(request, id):
     user = request.user
     if user:
@@ -48,7 +44,6 @@ def show_post(request, id):
 
 #마이 페이지
 #화면 보여 주기(영화제목, 평점, 작성일)
-
 def show_list(request):
     if request.method == 'GET':
         user = request.user
