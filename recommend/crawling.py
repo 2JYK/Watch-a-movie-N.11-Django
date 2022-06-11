@@ -3,7 +3,7 @@ import csv
 
 
 tmdb = TMDb()
-tmdb.api_key = '0462420f053eaee646c334e3a226605b'
+tmdb.api_key = ''
 
 tmdb.language = 'ko'
 tmdb.debug = True
